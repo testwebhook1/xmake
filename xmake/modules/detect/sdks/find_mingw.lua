@@ -29,6 +29,7 @@ import("detect.sdks.find_cross_toolchain")
 -- find mingw directory
 function _find_mingwdir(sdkdir)
 
+        print("find_mingw 3", sdkdir)
     -- get mingw directory
     if not sdkdir then
         if is_host("macosx", "linux") and os.isdir("/opt/llvm-mingw") then
@@ -43,6 +44,7 @@ function _find_mingwdir(sdkdir)
                 sdkdir = mingw_prefix
             end
         end
+        print("find_mingw 4", sdkdir)
         -- attempt to get it from $PATH
         -- @see https://github.com/xmake-io/xmake/issues/977
         if not sdkdir then
@@ -51,6 +53,7 @@ function _find_mingwdir(sdkdir)
                 for _, p in ipairs(path.splitenv(pathenv)) do
                     if p:find(string.ipattern("mingw[%w%-%_%+]*[\\/]bin")) and path.filename(p) == "bin" and os.isdir(p) then
                         sdkdir = path.directory(p)
+                        print("find_mingw 4", sdkdir)
                         break
                     end
                 end
@@ -62,10 +65,12 @@ function _find_mingwdir(sdkdir)
     local qt = config.get("qt")
     if not sdkdir and qt then
         sdkdir = find_path("bin", path.join(qt, "Tools", "mingw*_" .. (is_arch("x86_64") and "64" or "32")))
+        print("find_mingw qt", sdkdir)
     end
 
     -- get mingw directory
     if sdkdir and os.isdir(sdkdir) then
+        print("find_mingw end", sdkdir)
         return sdkdir
     end
 end
@@ -73,6 +78,7 @@ end
 -- find the mingw toolchain
 function _find_mingw(sdkdir, bindir, cross)
 
+        print("find_mingw 2", sdkdir)
     -- find mingw root directory
     sdkdir = _find_mingwdir(sdkdir)
     if not sdkdir then
@@ -119,6 +125,7 @@ function main(sdkdir, opt)
     -- init arguments
     opt = opt or {}
 
+        print("find_mingw begin", sdkdir)
     -- attempt to load cache first
     local key = "detect.sdks.find_mingw"
     local cacheinfo = cache.load(key)
@@ -126,6 +133,7 @@ function main(sdkdir, opt)
         return cacheinfo.mingw
     end
 
+        print("find_mingw 1", sdkdir)
     -- find mingw
     local mingw = _find_mingw(sdkdir or config.get("mingw") or global.get("mingw") or config.get("sdk"), opt.bindir or config.get("bin"), opt.cross or config.get("cross"))
     if mingw and mingw.sdkdir then

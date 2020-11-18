@@ -157,10 +157,16 @@ end
 function _instance:tool(toolkind)
     -- ensure to do load for initializing toolset first
     self:_load()
+    print("tool", toolkind)
     local toolpaths = self:get("toolset." .. toolkind)
+    if self:name() == "mingw" then
+    utils.dump(self:get("toolset"))
+end
     if toolpaths then
         for _, toolpath in ipairs(table.wrap(toolpaths)) do
+            print("_checktool", toolkind, toolpath)
             local program, toolname = self:_checktool(toolkind, toolpath)
+            print("_checktool end", toolkind, toolpath, program, toolname)
             if program then
                 return program, toolname
             end

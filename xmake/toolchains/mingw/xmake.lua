@@ -77,6 +77,7 @@ toolchain("mingw")
         toolchain:add("toolset", "strip", cross .. "strip")
         toolchain:add("toolset", "ranlib", cross .. "ranlib")
         toolchain:add("toolset", "mrc", cross .. "windres")
+        print("load", "mrc", cross .. "windres")
         if is_host("windows") and bindir then
             -- we use bin/gcc.exe if cross not found
             -- @see https://github.com/xmake-io/xmake/issues/977#issuecomment-704863677
