@@ -42,6 +42,7 @@ function main(opt)
 
     -- find program
     local program = find_program(opt.program or "windres", opt)
+    print("find_program windres", program)
 
     -- find program version
     local version = nil

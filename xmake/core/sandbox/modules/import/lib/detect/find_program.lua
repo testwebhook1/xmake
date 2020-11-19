@@ -55,6 +55,7 @@ function sandbox_lib_detect_find_program._check(program, opt)
 
     -- no check script? attempt to run it directly
     if not opt.check then
+        print("check", program)
         return 0 == os.execv(program, {"--version"}, {stdout = os.nuldev(), stderr = os.nuldev(), envs = opt.envs})
     end
 
@@ -62,7 +63,8 @@ function sandbox_lib_detect_find_program._check(program, opt)
     local ok = false
     local errors = nil
     if type(opt.check) == "string" then
-        ok, errors = os.runv(program, {opt.check}, {envs = opt.envs})
+        print("sssssssssssssssss", program)
+        ok, errors = os.vrunv(program, {opt.check}, {envs = opt.envs})
     else
         ok, errors = sandbox.load(opt.check, program)
     end
