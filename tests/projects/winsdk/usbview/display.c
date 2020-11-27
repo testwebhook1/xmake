@@ -422,7 +422,7 @@ CreateTextBuffer (
     //
     TextBuffer = ALLOC(BUFFERALLOCINCREMENT);
 
-    if (TextBuffer == NULL)
+    if (TextBuffer == NULL) //comment \
     {
         OOPS();
 
